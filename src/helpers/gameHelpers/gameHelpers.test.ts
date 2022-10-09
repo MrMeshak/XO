@@ -1,4 +1,4 @@
-import { checkBoardState, arrayEqual, makeMoveRandom } from './gameHelpers';
+import { checkBoardState, makeMoveRandom } from './gameHelpers';
 
 const p1 = 'P1';
 const p2 = 'P2';
@@ -25,21 +25,21 @@ describe('CheckBoardState Function', () => {
     const resultTest1 = checkBoardState(testBoards.boardP1RowWin1, p1);
     expect(resultTest1.status).toBe('WIN');
     expect(resultTest1.winner).toBe('P1');
-    expect(resultTest1.winState).toEqual([p1, p1, p1, '', '', '', '', '', '']);
+    expect(resultTest1.winState).toEqual([0, 1, 2]);
 
     //middle row
     const resultTest2 = checkBoardState(testBoards.boardP1RowWin2, p1);
     expect(resultTest2.status).toBe('WIN');
     expect(resultTest2.winner).toBe('P1');
     console.log(resultTest2.winState);
-    expect(resultTest2.winState).toEqual(['', '', '', p1, p1, p1, '', '', '']);
+    expect(resultTest2.winState).toEqual([3, 4, 5]);
 
     //last row
     const resultTest3 = checkBoardState(testBoards.boardP1RowWin3, p1);
     expect(resultTest3.status).toBe('WIN');
     expect(resultTest3.winner).toBe('P1');
     console.log(resultTest3.winState);
-    expect(resultTest3.winState).toEqual(['', '', '', '', '', '', p1, p1, p1]);
+    expect(resultTest3.winState).toEqual([6, 7, 8]);
   });
 
   test('detect column wins correctly', () => {
@@ -47,21 +47,21 @@ describe('CheckBoardState Function', () => {
     const resultTest1 = checkBoardState(testBoards.boardP1ColWin1, p1);
     expect(resultTest1.status).toBe('WIN');
     expect(resultTest1.winner).toBe('P1');
-    expect(resultTest1.winState).toEqual([p1, '', '', p1, '', '', p1, '', '']);
+    expect(resultTest1.winState).toEqual([0, 3, 6]);
 
     // middle col
     const resultTest2 = checkBoardState(testBoards.boardP1ColWin2, p1);
     expect(resultTest2.status).toBe('WIN');
     expect(resultTest2.winner).toBe('P1');
     console.log(resultTest2.winState);
-    expect(resultTest2.winState).toEqual(['', p1, '', '', p1, '', '', p1, '']);
+    expect(resultTest2.winState).toEqual([1, 4, 7]);
 
     // last col
     const resultTest3 = checkBoardState(testBoards.boardP1ColWin3, p1);
     expect(resultTest3.status).toBe('WIN');
     expect(resultTest3.winner).toBe('P1');
     console.log(resultTest3.winState);
-    expect(resultTest3.winState).toEqual(['', '', p1, '', '', p1, '', '', p1]);
+    expect(resultTest3.winState).toEqual([2, 5, 8]);
   });
 
   test('detect diagonal wins correctly', () => {
@@ -69,14 +69,14 @@ describe('CheckBoardState Function', () => {
     const resultTest1 = checkBoardState(testBoards.boardP1DiagWin1, p1);
     expect(resultTest1.status).toBe('WIN');
     expect(resultTest1.winner).toBe('P1');
-    expect(resultTest1.winState).toEqual([p1, '', '', '', p1, '', '', '', p1]);
+    expect(resultTest1.winState).toEqual([0, 4, 8]);
 
     // Diag upper right to lower Left
     const resultTest2 = checkBoardState(testBoards.boardP1DiagWin2, p1);
     expect(resultTest2.status).toBe('WIN');
     expect(resultTest2.winner).toBe('P1');
     console.log(resultTest2.winState);
-    expect(resultTest2.winState).toEqual(['', '', p1, '', p1, '', p1, '', '']);
+    expect(resultTest2.winState).toEqual([2, 4, 6]);
   });
 
   test('detect draw', () => {
