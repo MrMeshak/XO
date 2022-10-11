@@ -1,12 +1,14 @@
 import React from 'react';
-import Slider from './components/menu  /slider/Slider';
+import Game from './components/game/Game';
+import Menu from './components/menu  /Menu';
 
 
 
 function App() {
   return (
     <>
-      <Slider/>
+      <Game/>
+      <Menu/>
     </>
   );
 } 

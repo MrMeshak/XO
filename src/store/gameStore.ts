@@ -1,4 +1,5 @@
 import create from 'zustand';
+import { makeMoveMinMax } from '../helpers/gameHelpers/gameHelpers';
 
 interface IPlayer {
   name: string;
@@ -12,7 +13,7 @@ interface IGame {
   player1: IPlayer;
   player2: IPlayer;
 
-  playerTurn: 'P1' | 'P2';
+  currentPlayer: 'P1' | 'P2';
   gameStatus: 'WIN' | 'DRAW' | 'INPROGRESS';
   winner: 'P1' | 'P2' | '';
   winState: number[];
@@ -22,6 +23,8 @@ interface IGame {
     player2WinCount: number;
     drawCount: number;
   };
+
+  makeMove: Function;
 }
 
 const useGame = create<IGame>((set) => ({
@@ -31,7 +34,7 @@ const useGame = create<IGame>((set) => ({
   player1: { name: 'player1', type: 'PERSON' },
   player2: { name: 'player2', type: 'PERSON' },
 
-  playerTurn: 'P1',
+  currentPlayer: 'P1',
   gameStatus: 'INPROGRESS',
   winner: '',
   winState: [],
@@ -40,5 +43,7 @@ const useGame = create<IGame>((set) => ({
     player1WinCount: 0,
     player2WinCount: 0,
     drawCount: 0
-  }
+  },
+
+  makeMove: (position: number) => {}
 }));
