@@ -4,6 +4,9 @@ export interface IGameBottomBarProps {
 }
 
 export default function GameBottomBar (props: IGameBottomBarProps) {
+
+  
+
   return (
     <div className='m-6 grid grid-cols-3 gap-6'>
       <div className='py-2 text-dark-navy text-center bg-light-blue rounded-lg '>
