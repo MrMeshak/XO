@@ -1,4 +1,4 @@
-export const winStates = [
+export const winStates: number[][] = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -9,7 +9,13 @@ export const winStates = [
   [2, 4, 6]
 ];
 
-export const checkBoardState = (board: string[], player: 'P1' | 'P2') => {
+export interface ICheckBoardResult {
+  status: 'WIN' | 'DRAW' | 'INPROGRESS';
+  winner: 'P1' | 'P2' | '';
+  winState: number[];
+}
+
+export const checkBoardState = (board: string[], player: 'P1' | 'P2'): ICheckBoardResult => {
   //Check Win States
   for (let i = 0; i < winStates.length; i++) {
     let elementMatchCount = 0;
@@ -50,8 +56,69 @@ export const getEmptyPositions = (board: string[]) => {
 
 export const makeMoveRandom = (board: string[]) => {
   const indexes = getEmptyPositions(board);
-  const index = indexes[Math.floor(Math.random() * indexes.length)];
-  return index;
+  return getRandomFromSet(indexes);
 };
 
-export const makeMoveMinMax = (board: string[]) => {};
+export const makeMoveMiniMax = (board: string[], currentPlayer: 'P1' | 'P2') => {
+  const { bestPos } = minimax([...board], currentPlayer);
+  return bestPos;
+};
+
+export const minimax = (board: string[], currentPlayer: 'P1' | 'P2') => {
+  const statusP1 = checkBoardState(board, 'P1').status;
+  const statusP2 = checkBoardState(board, 'P2').status;
+  console.log('____Board', board);
+  console.log('____statusP1', statusP1);
+  console.log('____statusP1', statusP2);
+  console.log('____CurrentPlayer', currentPlayer);
+
+  if (statusP1 === 'WIN') {
+    console.log({ score: 1, bestPos: -1 });
+    return { score: 1, bestPos: -1 };
+  }
+
+  if (statusP2 === 'WIN') {
+    console.log({ score: -1, bestPos: -1 });
+    return { score: -1, bestPos: -1 };
+  }
+
+  if (statusP1 === 'DRAW' && statusP2 === 'DRAW') {
+    console.log({ score: 0, bestPos: -1 });
+    return { score: 0, bestPos: -1 };
+  }
+  let maxScore = -Infinity;
+  let minScore = Infinity;
+  let bestMaxPos = 0;
+  let bestMinPos = 0;
+  const emptyPositions = getEmptyPositions(board);
+  const nextPlayer = togglePlayer(currentPlayer);
+
+  for (let i = 0; i < emptyPositions.length; i++) {
+    board.splice(emptyPositions[i], 1, currentPlayer);
+    const { score } = minimax(board, nextPlayer); //recusive call with updated board
+    board.splice(emptyPositions[i], 1, ''); //Change board back to orginal state
+    if (score >= maxScore) {
+      bestMaxPos = emptyPositions[i];
+      maxScore = score;
+    }
+    if (score <= minScore) {
+      bestMinPos = emptyPositions[i];
+      minScore = score;
+    }
+  }
+
+  if (currentPlayer === 'P1') {
+    console.log({ score: maxScore, bestPos: bestMaxPos });
+    return { score: maxScore, bestPos: bestMaxPos };
+  }
+  console.log({ score: minScore, bestPos: bestMinPos });
+  return { score: minScore, bestPos: bestMinPos };
+};
+
+const togglePlayer = (currentPlayer: 'P1' | 'P2') => {
+  return currentPlayer === 'P1' ? 'P2' : 'P1';
+};
+
+export const getRandomFromSet = (set: number[]) => {
+  return set[Math.floor(Math.random() * set.length)];
+};

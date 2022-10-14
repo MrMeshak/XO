@@ -1,4 +1,4 @@
-import { checkBoardState, makeMoveRandom } from './gameHelpers';
+import { checkBoardState, makeMoveRandom, minimax } from './gameHelpers';
 
 const p1 = 'P1';
 const p2 = 'P2';
@@ -12,11 +12,17 @@ const testBoards = {
   boardP1ColWin3: [p2, p1, p1, p2, p2, p1, '', p2, p1],
   boardP1DiagWin1: [p1, p2, p2, p2, p1, '', '', '', p1],
   boardP1DiagWin2: [p2, '', p1, p2, p1, p2, p1, p2, p1],
+  boardP1ColWin3_2: [p1, p2, p1, p2, p2, p1, p2, p1, p1],
 
   boardInprogress1: ['', p1, '', '', '', p1, p2, p2, p1],
   boardInprogress2: [p2, p1, '', '', '', p1, p2, p2, p1],
   boardInprogress3: [p2, p1, p1, p1, p2, '', p1, p2, p2],
-  boardDraw1: [p1, p1, p2, p2, p2, p1, p1, p2, p1]
+  boardDraw1: [p1, p1, p2, p2, p2, p1, p1, p2, p1],
+
+  boardMiniMax1: ['P2', 'P1', 'P2', 'P1', '', 'P1', '', 'P2', ''], // P2 to Block (Move Center)
+  boardMiniMax2: ['P1', '', 'P2', '', 'P2', '', 'P1', 'P1', 'P2'], // P1 to Win (Move Left)
+  boardMiniMax3: ['P1', 'P2', 'P1', '', 'P2', '', 'P2', 'P1', 'P1'], //P2 to Block (Move Right)
+  boardMiniMax4: [p1, p1, p2, '', p2, '', p1, p2, p1]
 };
 
 describe('CheckBoardState Function', () => {
@@ -62,6 +68,12 @@ describe('CheckBoardState Function', () => {
     expect(resultTest3.winner).toBe('P1');
     console.log(resultTest3.winState);
     expect(resultTest3.winState).toEqual([2, 5, 8]);
+
+    const resultTest4 = checkBoardState(testBoards.boardP1ColWin3_2, p1);
+    expect(resultTest3.status).toBe('WIN');
+    expect(resultTest3.winner).toBe('P1');
+    console.log(resultTest3.winState);
+    expect(resultTest3.winState).toEqual([2, 5, 8]);
   });
 
   test('detect diagonal wins correctly', () => {
@@ -80,10 +92,10 @@ describe('CheckBoardState Function', () => {
   });
 
   test('detect draw', () => {
-    const result = checkBoardState(testBoards.boardDraw1, p1);
-    expect(result.status).toBe('DRAW');
-    expect(result.winner).toBe('');
-    expect(result.winState).toEqual([]);
+    const result1 = checkBoardState(testBoards.boardDraw1, p1);
+    expect(result1.status).toBe('DRAW');
+    expect(result1.winner).toBe('');
+    expect(result1.winState).toEqual([]);
   });
 
   test('detect game inprogress', () => {
@@ -104,5 +116,20 @@ describe('makeMoveRandom Function', () => {
   test('returns undefined if no positions are available', () => {
     const pos = makeMoveRandom(testBoards.boardDraw1);
     expect(pos).toBe(undefined);
+  });
+});
+
+describe('minimax Function', () => {
+  test.only('makes blocking move', () => {
+    //const pos1 = minimax(testBoards.boardMiniMax1, 'P2');
+    //expect(pos1.bestPos).toBe(4);
+
+    const pos2 = minimax(testBoards.boardMiniMax4, 'P2');
+    expect(pos2.bestPos).toBe(3);
+  });
+
+  test('make winning move', () => {
+    const pos = minimax(testBoards.boardMiniMax2, 'P1');
+    expect(pos.bestPos).toBe(3);
   });
 });
