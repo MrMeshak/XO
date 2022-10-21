@@ -10,12 +10,13 @@ export interface IGameProps {
 export default function Game (props: IGameProps) {
 
 
-
   return (
-    <div className='grid grid-rows-1'>
-      <GameTopBar/>
-      <Board/>
-      <GameBottomBar/>
-    </div>
+    <>
+      <div className='max-w-3xl'>
+        <GameTopBar/>
+        <Board/>
+        <GameBottomBar/>
+      </div>
+    </>
   );
 }

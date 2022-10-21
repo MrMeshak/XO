@@ -30,6 +30,7 @@ interface IGame {
   incrementWinCount: Function;
   incrementDrawCount: Function;
   resetGameHistory: Function;
+  resetBoard: Function;
   setInitialGameStatePersonVsPerson: Function;
   setInitialGameStatePersonVsComputer: Function;
   makeMove: Function;
@@ -74,7 +75,7 @@ export const useGame = create<IGame>((set) => ({
   incrementDrawCount: () =>
     set((state) => {
       return {
-        gameHistory: { ...state.gameHistory, drawcount: state.gameHistory.drawCount + 1 }
+        gameHistory: { ...state.gameHistory, drawCount: state.gameHistory.drawCount + 1 }
       };
     }),
 
@@ -87,6 +88,17 @@ export const useGame = create<IGame>((set) => ({
           drawCount: 0
         }
       };
+    }),
+
+  resetBoard: () =>
+    set((state) => {
+      if (state.gameType === 'PERSON_VS_PERSON') {
+        state.setInitialGameStatePersonVsPerson(state.playerA, state.playerB);
+        return {};
+      }
+
+      state.setInitialGameStatePersonVsComputer(state.playerA, state.gameType);
+      return {};
     }),
 
   setInitialGameStatePersonVsPerson: (playerA: IPlayer = { name: 'Player 1', value: 'P1' }, playerB: IPlayer = { name: 'Player 1', value: 'P2' }) =>
@@ -142,15 +154,25 @@ export const useGame = create<IGame>((set) => ({
       console.log(state.computer.value);
       console.log(updatedCurrentPlayer);
 
-      if (state.gameType === 'PERSON_VS_EASYCOMPUTER' && updatedCurrentPlayer === state.computer.value && status === 'INPROGRESS') {
-        console.log('start easy computer callback');
-        updatedIsInteractive = false;
-        setTimeout(() => state.makeMoveEasyComputer(), 500);
+      if (status === 'INPROGRESS') {
+        if (state.gameType === 'PERSON_VS_EASYCOMPUTER' && updatedCurrentPlayer === state.computer.value) {
+          console.log('start easy computer callback');
+          updatedIsInteractive = false;
+          setTimeout(() => state.makeMoveEasyComputer(), 400);
+        }
+
+        if (state.gameType === 'PERSON_VS_HARDCOMPUTER' && updatedCurrentPlayer === state.computer.value) {
+          updatedIsInteractive = false;
+          setTimeout(() => state.makeMoveHardComputer(), 200);
+        }
       }
 
-      if (state.gameType === 'PERSON_VS_HARDCOMPUTER' && updatedCurrentPlayer === state.computer.value && status === 'INPROGRESS') {
-        updatedIsInteractive = false;
-        setTimeout(() => state.makeMoveHardComputer(), 200);
+      if (status === 'WIN') {
+        state.incrementWinCount(winner);
+      }
+
+      if (status === 'DRAW') {
+        state.incrementDrawCount();
       }
 
       return {
@@ -171,6 +193,14 @@ export const useGame = create<IGame>((set) => ({
       const { status, winner, winState } = checkBoardState(updatedBoard, state.currentPlayer);
       const updatedIsInteractive = true;
 
+      if (status === 'WIN') {
+        state.incrementWinCount(winner);
+      }
+
+      if (status === 'DRAW') {
+        state.incrementDrawCount();
+      }
+
       return {
         board: updatedBoard,
         currentPlayer: updatedCurrentPlayer,
@@ -188,6 +218,14 @@ export const useGame = create<IGame>((set) => ({
       const updatedCurrentPlayer = state.currentPlayer === 'P1' ? 'P2' : 'P1';
       const { status, winner, winState } = checkBoardState(updatedBoard, state.currentPlayer);
       const updatedIsInteractive = true;
+
+      if (status === 'WIN') {
+        state.incrementWinCount(winner);
+      }
+
+      if (status === 'DRAW') {
+        state.incrementDrawCount();
+      }
 
       return {
         board: updatedBoard,
