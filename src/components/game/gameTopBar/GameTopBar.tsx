@@ -11,7 +11,6 @@ export interface IGameTopBarProps {
 export default function GameTopBar (props: IGameTopBarProps) {
   const currentPlayer  = useGame(state => state.currentPlayer)
   const gameStatus = useGame(state => state.gameStatus)
-  const gameType = useGame(state => state.gameType)
   const resetBoard = useGame(state => state.resetBoard)
   const toggleMenu = useGlobalUI(state => state.toggleMenuOpen)
   

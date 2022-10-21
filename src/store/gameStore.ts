@@ -1,5 +1,4 @@
 import create from 'zustand';
-import Board from '../components/game/board/Board';
 import { checkBoardState, makeMoveMiniMax, makeMoveRandom, getRandomFromSet } from '../helpers/gameHelpers/gameHelpers';
 interface IPlayer {
   name: string;

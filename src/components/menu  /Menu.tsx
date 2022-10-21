@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { useGame } from '../../store/gameStore';
 import { useGlobalUI } from '../../store/globalUIStore';
 
