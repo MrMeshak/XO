@@ -10,6 +10,7 @@ interface IGame {
 
   board: string[];
   playerA: IPlayer;
+  
   playerB: IPlayer;
   computer: IPlayer;
 
