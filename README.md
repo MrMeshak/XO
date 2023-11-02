@@ -1,6 +1,5 @@
 # XO | Noughts & Crosses
-[
-https://xo.up.railway.app/](https://xo-play.vercel.app/)
+[https://xo-play.vercel.app/](https://xo-play.vercel.app/)
 
 XO is a noughts and crosses webist that allows users to play against their frie ds or against the computer.
 
