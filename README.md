@@ -37,6 +37,7 @@ My goal with this project was to not only create a fun little game but also to l
 * ReactJS
 * TailwindCSS
 * Zustand
+* Jest
 
 ## Acknowledgments
 
