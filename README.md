@@ -33,6 +33,11 @@ My goal with this project was to not only create a fun little game but also to l
 
 * **State Management with Zustand** : Coming from my previous projects using Redux, I really enjoyed using Zustand because of its simplicity and minimal boilerplate.
 
+## Technologies
+* ReactJS
+* TailwindCSS
+* Zustand
+
 ## Acknowledgments
 
 * **FrontendMentor** : This project is based on the [Tic Tac Toe Challenge from Frontend Mentor](https://www.frontendmentor.io/challenges/tic-tac-toe-game-Re7ZF_E2v)
