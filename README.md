@@ -3,7 +3,7 @@
 
 "XO" is a website for playing noughts and crosses (tic-tac-toe) where users can engage in games against their friends or play against a computer opponent.
 
-## Demo & Snippits
+## Demo & Snippets
 [https://xo-play.vercel.app/](https://xo-play.vercel.app/)
 
 **Game Menu**
